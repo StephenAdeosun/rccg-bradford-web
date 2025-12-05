@@ -25,6 +25,7 @@ import { FaChevronRight } from "react-icons/fa";
 import { IoExitOutline } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 
+
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
@@ -41,10 +42,10 @@ export default function Header() {
   };
 
   return (
-    <div className="bg-gradient-to-r from-primary to-secondary z-40 py-5 fixed top-0 flex w-full p-2 md:py-5 md:px-8 justify-between items-center">
+    <div className="bg-gradient-to-r from-primary to-secondary z-40 py-5 fixed top-0 flex w-full p-2 md:py-1 md:px-8 justify-between items-center">
       <div className="w-[20%] lg:h-[70px]">
         <Image
-          src="https://www.rccgbradford.org.uk/wp-content/themes/church/assets/images/tmp/layout_new_delhi/logo_default.svg"
+          src={"/img/RccgLogo.png"}
           alt="logo"
           width={200}
           height={200}
@@ -142,6 +143,12 @@ export default function Header() {
                 >
                   Our Services
                 </p>
+                <p
+                  className="hover:text-tetiary text-[#fff] cursor-pointer"
+                  onClick={() => router.push("/house_fellowship")}
+                >
+                  House Fellowship
+                </p>
                 <Accordion allowToggle>
                   <AccordionItem border={"none"} p={0}>
                     <h2>
@@ -170,7 +177,8 @@ export default function Header() {
                           onClick={() => router.push("/videoGallery")}
                         >
                           Video Gallery
-                        </p>
+                          </p>
+                     
                         <p
                           className="hover:text-tetiary text-[#fff] cursor-pointer"
                           onClick={() => router.push("/pictureGallery")}
@@ -203,6 +211,13 @@ export default function Header() {
           >
             About Us
           </MenuButton>
+          <MenuButton
+            className="hover:text-tetiary text-[#fff] cursor-pointer"
+   
+            onClick={() => router.push("/blogs")}
+          >
+          Blogs
+          </MenuButton>
           <MenuList
             bg="linear-gradient(to left, var(--primary), var(--secondary))"
             zIndex={40}
@@ -222,6 +237,7 @@ export default function Header() {
             >
               Meet Our Leaders
             </MenuItem>
+         
             <MenuItem
               {...menuItemStyles}
               onClick={() => router.push("/history")}
@@ -254,6 +270,12 @@ export default function Header() {
           onClick={() => router.push("/services")}
         >
           Our Services
+        </p>
+        <p
+          className="hover:text-tetiary text-[#fff] cursor-pointer"
+          onClick={() => router.push("/house_fellowship")}
+        >
+          House Fellowship
         </p>
 
         <Menu isOpen={isMoreOpen}>
@@ -328,6 +350,12 @@ export default function Header() {
             </MenuItem>
             {/* <MenuItem {...menuItemStyles}>Departments</MenuItem>
             <MenuItem {...menuItemStyles}>Blog</MenuItem> */}
+            <MenuItem
+              {...menuItemStyles}
+              onClick={() => window.location.href = "https://emailmg.ipage.com/roundcube"}
+            >
+              Webmail
+            </MenuItem>
           </MenuList>
         </Menu>
       </div>

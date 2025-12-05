@@ -1,180 +1,70 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import PastorBlogItem from "@/components/PastorBlogItem";
-import GlobalPagination from "@/components/utils/GlobalPagination";
-import { Staticdata } from "@/static/data";
-import { Select, Spinner } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { BiFilter, BiSearch } from "react-icons/bi";
-import { useQuery, gql } from "@apollo/client";
-import { IPastorBlog } from "@/models/utils.model";
-const years = [
-  "2024",
-  "2023",
-  "2022",
-  "2021",
-  "2020",
-  "2019",
-  "2018",
-  "2017",
-  "2016",
-  "2015",
+import Link from 'next/link';
+import React from 'react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+
+const blogs = [
+  {
+    title: "Divine Preference: You Will Be Preferred",
+    image: "/img/children.jpeg",
+    excerpt: "Discover how divine preference can uplift and set you apart in all aspects of life.",
+    url: "/blogs/divine-preference",
+  },
+  {
+    title: "What is Your Temperature?",
+    image: "/img/temp.jpg",
+    excerpt: "This spewing out is not a message of hope. It is a message of judgment.",
+    url: "/blogs/what-is-your-temperature",
+  },
+  {
+    title: "YOU AND YOUR THOUGHT",
+    image: "/img/yourthoughts.jpg",
+    excerpt: "The kind of life you live is traceable to the kind of thought you have",
+    url: "/blogs/you-and-your-thought",
+  },
+  
+  {
+    title: "THE POTENCY OF GODLY SACRIFICE",
+    image: "/img/hf.jpeg",
+    excerpt: "Thou therefore endure hardness, as a good soldier of Jesus Christ.",
+    url: "/blogs/the-potency-of-godly-sacrifice",
+  },
+  {
+    title: "A NEW SONG",
+    image: "/img/newsong.jpg",
+    excerpt: "Nine different times, “A new song” appears in Scripture. Six are in the Psalms, two in Revelations, and one in Isaiah. ",
+    url: "/blogs/a-new-song",
+  },
+
 ];
 
-const GET_DATA = gql`
-  {
-    pastorBlogs {
-      blogDescriptions
-      blogTitle
-      createdAt
-      createdBy {
-        name
-      }
-      publishedAt
-      category
-      blogImage {
-        url
-      }
-      id
-    }
-  }
-`;
-
-export default function PastorBlog() {
-  const router = useRouter();
-  const [blogs, setBlogs] = useState(Staticdata.pastorsBlog);
-  const [actualBlogs, setABlogs] = useState<IPastorBlog[]>([]);
-  const [current, setCurrentItems] = useState<IPastorBlog[]>([]);
-  const [isFilter, setisFilter] = useState<boolean>(false);
-  const [offset, setItemOffset] = useState<number>(0);
-  const [pageCount, setPageCount] = useState<number>(
-    Staticdata.pastorsBlog.length
-  );
-  const { loading, error, data } = useQuery(GET_DATA);
-  useEffect(() => {
-    console.log(loading, error, data);
-    if (data) {
-      setABlogs(data.pastorBlogs);
-    }
-  }, [data]);
-  const limit = 10;
-  const handlePageClick = (page: any) => {
-    const newOffset = page * limit;
-    console.log(newOffset, "newoddset");
-    setItemOffset(newOffset);
-    // getusers(newOffset);
-  };
-
-  useEffect(() => {
-    // Fetch items from another resources
-
-    const endOffset = offset + limit;
-    console.log(offset, "offy");
-    setCurrentItems(actualBlogs?.slice(offset, endOffset));
-    // console.log(endOffset, "newEndo");
-    // console.log(blogs?.slice(offset, endOffset));
-    setPageCount(Math.ceil(actualBlogs?.length / limit));
-  }, [offset, actualBlogs, limit]);
-  const handleSearch = (value: string) => {
-    const matchedItems = actualBlogs.filter((item) =>
-      item.blogTitle.toLowerCase().includes(value.toLowerCase())
-    );
-    setCurrentItems(matchedItems);
-  };
-  const handleFilter = (value: string) => {
-    const matchedItems = actualBlogs.filter((item) =>
-      item.publishedAt.includes(value)
-    );
-    setCurrentItems(matchedItems);
-    setisFilter(true);
-  };
-  const clearFilter = () => {
-    router.reload();
-  };
-
+export default function BlogList() {
   return (
     <>
-      <Header />
+        <Header />
+      
+    <section className="max-w-4xl mt-12 mx-auto py-12 px-6">
+      <h1 className="text-4xl font-extrabold mb-10 text-center">Pastor's Blog</h1>
 
-      <div className="flex w-full min-h-[80vh] justify-center mt-[120px] mb-5  gap-3">
-        <div className="w-[80%]">
-          {loading ? (
-            <Spinner />
-          ) : (
-            <div className="flex w-full gap-3">
-              <div className="w-full flex flex-col gap-5">
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="w-fit h-fit flex border p-2 rounded-lg items-center gap-2 border-[#ccc]">
-                      <BiSearch />
-                      <input
-                        type="text"
-                        name="search"
-                        id="search"
-                        placeholder="Search Articles by Name"
-                        className="outline-none border-none"
-                        onChange={(e) => {
-                          handleSearch(e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div className="w-fit h-fit flex border p-2 rounded-lg items-center gap-2 border-[#ccc]">
-                      <BiFilter />
-                      <Select
-                        border={"none"}
-                        focusBorderColor="transparent"
-                        size={"sm"}
-                        onChange={(e) => {
-                          handleFilter(e.target.value);
-                        }}
-                      >
-                        <option value={""}>Filter</option>
-                        {years.map((item, index) => (
-                          <option key={index} value={item}>
-                            {item}
-                          </option>
-                        ))}
-                      </Select>
-                      {isFilter && (
-                        <button
-                          className="bg-gradient-to-r from-primary to-secondary text-xs  text-white font-semibold hover:bg-gradient-to-l ease-in-out duration-700 hover:scale-110 transition px-2 py-1 w-fit rounded-lg"
-                          onClick={() => {
-                            clearFilter();
-                          }}
-                        >
-                          Clear
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex flex-col lg:w-[90%] gap-8">
-                    {current.map((item, index) => (
-                      <PastorBlogItem
-                        title={item.blogTitle}
-                        datePosted={item.publishedAt}
-                        postedBy={item.createdBy.name}
-                        category={item.category}
-                        blogDeteails={item.blogDescriptions[0]}
-                        key={index}
-                        id={item.id}
-                        src={item.blogImage[0].url}
-                      />
-                    ))}
-                  </div>
-                </div>
-                <div className="flex justify-end">
-                  <GlobalPagination
-                    onPageClick={handlePageClick}
-                    pageCount={pageCount}
-                  />
-                </div>
+      <div className="space-y-8">
+        {blogs.map((blog, index) => (
+          <Link key={index} href={blog.url}>
+            <div className="flex flex-col md:flex-row items-center  bg-white shadow-lg rounded-xl  mt-8 gap-8 overflow-hidden hover:shadow-xl transition cursor-pointer p-6 md:h-44">
+              <img
+                src={blog.image}
+                alt={blog.title}
+                className="w-full md:w-56 h-36 object-cover rounded-lg"
+              />
+              <div className="md:ml-6 mt-4 md:mt-0 text-center md:text-left flex-1">
+                <h2 className="text-2xl font-bold">{blog.title}</h2>
+                <p className="text-gray-600 mt-2 leading-relaxed">{blog.excerpt}</p>
+                <p className="text-blue-600 text-lg mt-2 font-semibold">Read More →</p>
               </div>
             </div>
-          )}
-        </div>
+          </Link>
+        ))}
       </div>
-      <Footer />
+    </section>  <Footer />
     </>
   );
 }

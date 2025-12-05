@@ -1,127 +1,126 @@
 import React, { useEffect, useState } from "react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import VideoCard from "@/components/VideoCard";
-import { useRouter } from "next/router";
 
-interface Video {
-  id: string;
-  title: string;
-  thumbnailUrl: string;
-  videoUrl: string;
-}
-export default function VideoGallery() {
-  const [joined, setJoined] = useState<boolean>(false);
-  const router = useRouter();
-  const { time, url } = router.query;
-  const [days, setDays] = useState<number>(0);
-  const [hours, setHours] = useState<number>(0);
-  const [minutes, setMinutes] = useState<number>(0);
-  const [seconds, setSeconds] = useState<number>(0);
-  const [countdown, setCountdown] = useState<boolean>();
+export default function LiveStreamPage() {
+  const [liveVideoId, setLiveVideoId] = useState<string | null>(null);
+  const [pastEvents, setPastEvents] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  function generateNextTwoMinutesISO(): string {
-    const currentDate = new Date();
-    const futureDate = new Date(currentDate.getTime() + 2 * 60 * 1000); // Add 2 minutes
-    return futureDate.toISOString();
-  }
+  const channelId = process.env.NEXT_PUBLIC_YOUTUBE_CHANNEL_ID;
+  const apiKey = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
 
   useEffect(() => {
-    if (time) {
-      // Generate the future date once
-      const eventDate = new Date(time as string);
-
-      setCountdown(true);
-      localStorage.setItem("countdown", JSON.stringify(true));
-
-      const countdownInterval = setInterval(() => {
-        const now = new Date().getTime();
-        const timeRemaining = eventDate.getTime() - now;
-
-        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-        setDays(days);
-        const hours = Math.floor(
-          (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    async function fetchLiveStream() {
+      try {
+        setLoading(true);
+        const res = await fetch(
+          `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&eventType=live&type=video&key=${apiKey}`
         );
-        setHours(hours);
-        const minutes = Math.floor(
-          (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
-        );
-        setMinutes(minutes);
-        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-        setSeconds(seconds);
+        const data = await res.json();
 
-        if (timeRemaining < 0) {
-          clearInterval(countdownInterval);
-          setCountdown(false);
-          localStorage.setItem("countdown", JSON.stringify(false));
+        if (data.items && data.items.length > 0) {
+          setLiveVideoId(data.items[0].id.videoId);
+        } else {
+          setLiveVideoId(null);
         }
-      }, 1000);
-
-      console.log(url, "ururur");
-      return () => clearInterval(countdownInterval); // Cleanup interval on unmount
+      } catch (err) {
+        console.error("Error fetching live stream:", err);
+        setError("Error fetching live stream data.");
+      } finally {
+        setLoading(false);
+      }
     }
-  }, [time]);
 
-  useEffect(() => {}, [url]);
+    async function fetchPastEvents() {
+      try {
+        const res = await fetch(
+          `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&eventType=completed&type=video&key=${apiKey}&maxResults=10&order=date`
+        );
+        const data = await res.json();
+
+        if (data.items) {
+          setPastEvents(data.items);
+        }
+      } catch (err) {
+        console.error("Error fetching past events:", err);
+      }
+    }
+
+    // Initial fetch on component mount
+    fetchLiveStream();
+    fetchPastEvents();
+
+    // Set intervals
+    const liveInterval = setInterval(fetchLiveStream, 60000000); // Every 10 minutes
+    const pastInterval = setInterval(fetchPastEvents, 86400000); // Every 24 hours
+
+    return () => {
+      clearInterval(liveInterval);
+      clearInterval(pastInterval);
+    };
+  }, [channelId, apiKey]);
 
   return (
-    <div className="">
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="w-full mt-[80px] lg:mt-[120px] flex items-center justify-center">
-        <div className="w-[90%] h-fit">
-          {countdown ? (
-            <>
-              <div className="flex flex-row justify-between gap-3 h-screen w-full">
-                <div className="flex flex-col justify-center gap-3 items-center h-full">
-                  <p className="text-[64px] font-semibold md:text-[32px] sm:text-[20px]">
-                    {days}
-                  </p>
-                  <p className="text-[16px] font-bold md:text-[12px] sm:text-[10px]">
-                    DAYS
-                  </p>
-                </div>
-                <div className="flex flex-col justify-center gap-3 items-center h-full">
-                  <p className="text-[64px] font-semibold md:text-[32px] sm:text-[20px]">
-                    {hours}
-                  </p>
-                  <p className="text-[16px] font-bold md:text-[12px] sm:text-[10px]">
-                    HOURS
-                  </p>
-                </div>
-                <div className="flex flex-col justify-center gap-3 items-center h-full">
-                  <p className="text-[64px]  font-semibold md:text-[32px] sm:text-[20px]">
-                    {minutes}
-                  </p>
-                  <p className="text-[16px] font-bold md:text-[12px] sm:text-[10px]">
-                    MINUTES
-                  </p>
-                </div>
-                <div className="flex flex-col justify-center gap-3 items-center h-full">
-                  <p className="text-[64px] font-semibold md:text-[32px] sm:text-[20px]">
-                    {seconds}
-                  </p>
-                  <p className="text-[16px] font-bold md:text-[12px] sm:text-[10px]">
-                    SECONDS
-                  </p>
-                </div>
-              </div>
-            </>
-          ) : (
-            <>
+      <main className="flex-grow max-w-7xl mx-auto px-4 py-12">
+        {loading && <p className="text-center">Loading live stream...</p>}
+        {error && <p className="text-center text-red-500">{error}</p>}
+
+        {/* Live Stream Section */}
+        <section className="mb-12">
+          <h2 className="text-3xl font-bold text-center md:pt-24 pt-10 mb-6">
+            Live Now
+          </h2>
+          {liveVideoId ? (
+            <div className="flex justify-center">
               <iframe
-                src={url as string}
-                title="YouTube video player"
+                className="w-full max-w-4xl h-60 sm:h-80 md:h-96 lg:h-[500px]"
+                src={`https://www.youtube.com/embed/${liveVideoId}?autoplay=1`}
                 frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                className="p-5 shadow-md rounded-lg w-full h-screen my-5"
+                title="Live Stream"
               ></iframe>
-            </>
+            </div>
+          ) : (
+            !loading && <p className="text-center">No live stream is currently active.</p>
           )}
-        </div>
-      </div>
+        </section>
+
+        {/* Past Live Events Section */}
+        <section>
+          <h2 className="text-3xl font-bold text-center mb-6">
+            Past Live Events
+          </h2>
+          {pastEvents.length > 0 ? (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+              {pastEvents.map((event) => (
+                <div key={event.id.videoId} className="shadow-lg rounded overflow-hidden">
+                  <iframe
+                    className="w-full h-56 sm:h-64 md:h-72"
+                    src={`https://www.youtube.com/embed/${event.id.videoId}`}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    title={event.snippet.title}
+                  ></iframe>
+                  <div className="p-4">
+                    <h3 className="text-lg font-semibold">{event.snippet.title}</h3>
+                    <p className="text-sm text-gray-600">
+                      {new Date(event.snippet.publishedAt).toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center">No past live events found.</p>
+          )}
+        </section>
+      </main>
       <Footer />
     </div>
   );

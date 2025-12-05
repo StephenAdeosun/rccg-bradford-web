@@ -32,7 +32,7 @@ export default function Choir() {
         >
           <Image
             src={
-              "https://www.rccgbradford.org.uk/wp-content/uploads/2016/01/choir.gif"
+              "/img/Choir.jpg"
             }
             alt="historyPix"
             width={500}

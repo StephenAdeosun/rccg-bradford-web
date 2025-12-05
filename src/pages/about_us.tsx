@@ -12,9 +12,11 @@ export default function AboutUs() {
   // const [isHovered, setIsHovered] = useState(false);
 
    const img = [
-    "https://www.rccgbradford.org.uk/wp-content/uploads/2019/05/rccg3-1.jpg",
-    "https://www.rccgbradford.org.uk/wp-content/uploads/2019/05/rccg8.jpg",
-    "https://www.rccgbradford.org.uk/wp-content/uploads/2019/05/rccg8.jpg",
+    "/img/about.jpg",
+    "/img/about3.jpg",
+    "/img/about2.jpg",
+    
+    
   ];
   const responsive = {
     superLargeDesktop: {

@@ -3,15 +3,21 @@ import { Inter } from "next/font/google";
 import Header from "@/components/Header";
 import { useEffect, useState } from "react";
 import HomeVideo from "@/components/HomeVideo";
+import Slider from "@/components/slider";
 import Categories from "@/components/Categories";
 import Bible from "@/components/Bible";
-import Sermons from "@/components/Sermons";
-import NextEvents from "@/components/NextEvents";
+import Sermons from "@/components/LatestSermons";
+import NextEvents from "@/components/Sermons";
+// import NextEvents from "@/components/NextEvents";
 import MarqueeImg from "@/components/Marquee";
 import Giving from "@/components/Giving";
 import SubFooter from "@/components/SubFooter";
 import Footer from "@/components/Footer";
+import CategoriesNew from "@/components/CategoriesNew";
+import Testimony from "@/components/Testimony";
 import { useQuery, gql } from "@apollo/client";
+import Link from "next/link";
+import router from "next/router";
 import {
   ICategories,
   IHeroSection,
@@ -20,6 +26,7 @@ import {
   IPictureGallery,
   IHygraphPicturesArray,
 } from "@/models/utils.model";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -119,13 +126,21 @@ export default function Home() {
       <Header />
       {/* <div className={`${isTop ? "wave" : "hidden"} z-10`}></div> */}
       <HomeVideo heroSections={heroSections} nearestEvent={nearestEvent} />
-      <Categories categories={categories} />
+      <Slider />
+      <Testimony />
+      <CategoriesNew/>
+      {/* <Categories categories={categories} /> */}
       {/* <Bible /> */}
-      <Sermons latestSermons={latestSermons} />
-      <NextEvents nextEvents={nextEvents} />
       <MarqueeImg pictureGalleries={pictureGalleries} />
-      <Giving />
-      <SubFooter subFooter={subFooter} />
+
+   
+      <Sermons  />
+      {/* <NextEvents latestSermons={latestSermons} /> */}
+
+      
+      {/* <Giving /> */}
+
+      
       <Footer />
     </div>
   );
