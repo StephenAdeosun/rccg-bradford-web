@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function ImageBannerSlider() {
   const images = [
-       "/img/RCCG-NOV.jpg",
+       "/img/Dec.jpg",
     "/img/YearBanner.jpg",
     // "https://eu-west-2.graphassets.com/cm00utdux6vaz08mkdx210ojr/cm0pijnb31ytb07l9kyptgjcl",
     // "https://eu-west-2.graphassets.com/cm00utdux6vaz08mkdx210ojr/cm0pijn7c1za207mn2pyaizoz",
@@ -12,7 +12,7 @@ export default function ImageBannerSlider() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
