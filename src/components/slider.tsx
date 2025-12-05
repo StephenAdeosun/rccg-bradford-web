@@ -12,6 +12,7 @@ export default function ImageBannerSlider() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
