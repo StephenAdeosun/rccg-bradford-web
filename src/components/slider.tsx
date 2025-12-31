@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
+import Image from "next/image";
 export default function ImageBannerSlider() {
   const images = [
        "/img/ban26.jpeg",
-    "/img/ban26.jpeg",
+    "/img/ban2.jpeg",
     // "https://eu-west-2.graphassets.com/cm00utdux6vaz08mkdx210ojr/cm0pijnb31ytb07l9kyptgjcl",
     // "https://eu-west-2.graphassets.com/cm00utdux6vaz08mkdx210ojr/cm0pijn7c1za207mn2pyaizoz",
     // "https://eu-west-2.graphassets.com/cm00utdux6vaz08mkdx210ojr/cm0ajdwxs8fv507ldzuu04e9g",
@@ -34,9 +34,21 @@ export default function ImageBannerSlider() {
   };
 
   return (
+    <>
+        {/* <Image
+      src="/img/cross26.jpeg"
+      alt="Logo"
+      width={100}
+      height={100}
+      priority
+    /> */}
+
     <section className="relative w-full h-[200px] sm:h-[300px] md:h-[400px] lg:h-[550px] xl:h-[850px] 2xl:h-[1000px] mb-10 xl:p-10 overflow-hidden">
       {/* Images */}
-      <div className="w-full h-full relative">
+      
+      
+      <div className="w-full h-full relative">   
+    
         {images.map((image, index) => (
           <img
             key={index}
@@ -76,6 +88,6 @@ export default function ImageBannerSlider() {
           />
         ))}
       </div>
-    </section>
+    </section>    </>
   );
 }
