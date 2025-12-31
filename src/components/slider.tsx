@@ -35,13 +35,7 @@ export default function ImageBannerSlider() {
 
   return (
     <>
-        {/* <Image
-      src="/img/cross26.jpeg"
-      alt="Logo"
-      width={100}
-      height={100}
-      priority
-    /> */}
+        
 
     <section className="relative w-full h-[200px] sm:h-[300px] md:h-[400px] lg:h-[550px] xl:h-[850px] 2xl:h-[1000px] mb-10 xl:p-10 overflow-hidden">
       {/* Images */}
