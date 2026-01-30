@@ -3,7 +3,6 @@ import { ImgHTMLAttributes } from "react";
 import { IHeroSection, INextEvent } from "@/models/utils.model";
 import { useRouter } from "next/router";
 import React from "react";
-import Image from "next/image";
 
 type HeroSectionProps = {
   heroSections: IHeroSection[];
@@ -17,14 +16,7 @@ export default function HomeVideo({
   const router = useRouter();
 
   return (
-    <div><Image
-          src="/img/cross26.jpeg"
-          alt="Logo"
-          width={1000}
-          height={1200}
-          className="m-auto w-full h-full"
-          priority
-        />
+    <div>
       <section className="relative flex items-center justify-center h-[480px] mb-12 pt-[50px] lg:mt-[75px]  overflow-hidden  ">
         <div className="relative z-20  text-center text-white max-w-4xl mx-auto">
           <h1 className="text-4xl text-white sm:text-6xl font-bold mb-4">

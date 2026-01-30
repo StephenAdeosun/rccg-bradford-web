@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function ImageBannerSlider() {
   const images = [
        "/img/ban26.jpeg",
-    "/img/ban2.jpeg",
+    "/img/FEB COHG.jpeg",
     // "https://eu-west-2.graphassets.com/cm00utdux6vaz08mkdx210ojr/cm0pijnb31ytb07l9kyptgjcl",
     // "https://eu-west-2.graphassets.com/cm00utdux6vaz08mkdx210ojr/cm0pijn7c1za207mn2pyaizoz",
     // "https://eu-west-2.graphassets.com/cm00utdux6vaz08mkdx210ojr/cm0ajdwxs8fv507ldzuu04e9g",
