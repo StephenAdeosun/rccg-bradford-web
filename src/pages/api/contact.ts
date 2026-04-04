@@ -10,8 +10,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   console.log("Received Form Data:", req.body);
 
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS || !process.env.EMAIL_TO) {
+    return res.status(500).json({
+      success: false,
+      message: "Email service is not configured correctly.",
+    });
+  }
+
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    requireTLS: true,
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
@@ -35,17 +48,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   emailBody += `Message:\n${message}`;
 
   try {
-    await transporter.sendMail({
+    const mailOptions = {
       from: `"${fullName}" <${process.env.EMAIL_USER}>`,
-      replyTo: email,
       to: process.env.EMAIL_TO,
       subject: `New Contact Form Submission: ${subject}`,
       text: emailBody,
-    });
+      ...(email ? { replyTo: email } : {}),
+    };
+
+    await transporter.sendMail(mailOptions);
 
     res.status(200).json({ success: true, message: "Email sent successfully!" });
   } catch (error) {
     console.error("Error sending email:", error);
-    res.status(500).json({ success: false, message: "Failed to send email. Please try again." });
+    res.status(500).json({
+      success: false,
+      message:
+        "Failed to send email. If this persists, please contact church admin directly.",
+    });
   }
 }
