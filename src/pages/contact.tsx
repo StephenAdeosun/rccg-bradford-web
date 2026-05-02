@@ -9,7 +9,6 @@ export default function ContactPage() {
     subject: "Testimony", // Default subject
     phoneNumber: "",
     message: "",
-    testimonyService: "", // New field for service selection
   });
 
   const [loading, setLoading] = useState(false);
@@ -43,7 +42,6 @@ export default function ContactPage() {
           subject: "Testimony",
           phoneNumber: "",
           message: "",
-          testimonyService: "",
         });
       } else {
         setResponseMessage("❌ Failed to send message. Please try again later.");
@@ -104,23 +102,6 @@ export default function ContactPage() {
                 {/* ✅ Phone Number Field (Hidden for Testimony) */}
                 {formData.subject !== "Testimony" && (
                   <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} required placeholder="Phone Number" className="w-full p-3 border rounded-lg" />
-                )}
-
-                {/* ✅ Testimony Service Selection (Only for "Testimony" Subject) */}
-                {formData.subject === "Testimony" && (
-                  <div>
-                    <label className="block text-gray-700 mb-2 font-medium">Which Service will you be attending?</label>
-                    <div className="flex space-x-4">
-                      <label>
-                        <input type="radio" name="testimonyService" value="First Service" onChange={handleChange} required />
-                        First Service
-                      </label>
-                      <label>
-                        <input type="radio" name="testimonyService" value="Second Service" onChange={handleChange} required />
-                        Second Service
-                      </label>
-                    </div>
-                  </div>
                 )}
 
                 <textarea name="message" rows={5} value={formData.message} onChange={handleChange} required placeholder="Leave a message..." className="w-full p-3 border rounded-lg"></textarea>

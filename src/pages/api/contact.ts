@@ -6,7 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
-  const { fullName, email, phoneNumber, subject, message, testimonyService } = req.body;
+  const { fullName, email, phoneNumber, subject, message } = req.body;
 
   console.log("Received Form Data:", req.body);
 
@@ -41,8 +41,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (subject !== "Testimony") {
     emailBody += `Phone Number: ${phoneNumber}\n`; // Include phone number if NOT Testimony
-  } else {
-    emailBody += `Testimony Service: ${testimonyService}\n`; // Include service selection for Testimony
   }
 
   emailBody += `Message:\n${message}`;
