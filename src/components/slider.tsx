@@ -84,6 +84,12 @@ export default function ImageBannerSlider() {
           />
         ))}
       </div>
-    </section>    </>
+
+        {/* july declaration */}
+        
+
+    </section>   <div>
+          <img src="/img/july-declaration.jpeg" width={"1200"} className="m-auto" alt="" />
+        </div> </>
   );
 }
