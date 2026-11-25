@@ -88,8 +88,8 @@ export default function ImageBannerSlider() {
         
 
     </section>   
-    <div>
+    {/* <div>
           <img src="/img/novdecl.jpeg" width={"700"} className="m-auto" alt="" />
-        </div> </>
+        </div> */} </>
   );
 }

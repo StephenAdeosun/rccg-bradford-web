@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   ArrowUpRight,
   BriefcaseBusiness,
+  CalendarDays,
   CheckCircle2,
   Clock3,
   HeartHandshake,
@@ -18,6 +19,7 @@ type Vacancy = {
   category: string;
   summary: string;
   employment: string;
+  closingDate: string;
   openings?: string;
   icon: LucideIcon;
   accent: string;
@@ -70,10 +72,10 @@ const vacancies: Vacancy[] = [
     applicationNotes: [
       "Visa sponsorship is available under the Minister of Religion (T2) route for eligible candidates, subject to UKVI and Home Office requirements.",
       "Applications are welcome from suitably qualified candidates in the UK and overseas.",
-      "Applications are reviewed on a rolling basis until the position is filled. Early applications are encouraged.",
-      "Closing date: ongoing until the position is filled.",
+      "Applications are reviewed on a rolling basis. Early applications are encouraged.",
       "Only shortlisted candidates will be contacted.",
     ],
+    closingDate: "26 November 2026",
   },
   {
     title: "Receptionist / Administrative Support Officer",
@@ -113,10 +115,10 @@ const vacancies: Vacancy[] = [
       "Send your CV and a formal application letter outlining your qualifications, experience and suitability for the position.",
     applicationNotes: [
       "Part-time role: 20 hours per week.",
-      "Applications are reviewed on a rolling basis until a suitable candidate is appointed. Early applications are encouraged.",
-      "Closing date: ongoing until the position is filled.",
+      "Applications are reviewed on a rolling basis. Early applications are encouraged.",
       "Only shortlisted candidates will be contacted.",
     ],
+    closingDate: "4 December 2026",
   },
   {
     title: "Church Facilities Support Officer",
@@ -157,10 +159,10 @@ const vacancies: Vacancy[] = [
       "Send your CV and a formal application letter outlining your experience, practical skills and suitability for the position.",
     applicationNotes: [
       "Part-time role; working hours to be agreed.",
-      "Applications are reviewed on a rolling basis until a suitable candidate is appointed. Early applications are encouraged.",
-      "Closing date: ongoing until the position is filled.",
+      "Applications are reviewed on a rolling basis. Early applications are encouraged.",
       "Only shortlisted candidates will be contacted.",
     ],
+    closingDate: "4 December 2026",
   },
 ];
 
@@ -176,7 +178,7 @@ function VacancyCard({ vacancy, index }: { vacancy: Vacancy; index: number }) {
   )}`;
 
   return (
-    <article className="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-24px_rgba(15,23,42,0.34)]">
+    <article className="flex min-h-[32rem] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_12px_40px_-24px_rgba(15,23,42,0.28)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_50px_-24px_rgba(15,23,42,0.34)]">
       <div className={`h-1.5 bg-gradient-to-r ${vacancy.accent}`} />
       <div className="flex flex-1 flex-col p-6 sm:p-7">
         <div className="mb-5 flex items-center justify-between gap-3">
@@ -214,6 +216,14 @@ function VacancyCard({ vacancy, index }: { vacancy: Vacancy; index: number }) {
               {vacancy.openings}
             </span>
           )}
+          <span className="inline-flex items-center gap-2 font-semibold text-rose-700">
+            <CalendarDays
+              size={16}
+              className="text-rose-700"
+              aria-hidden="true"
+            />
+            Application closes {vacancy.closingDate}
+          </span>
         </div>
 
         {vacancy.title === "Minister of Religion / Clergy" && (
@@ -301,6 +311,9 @@ function VacancyCard({ vacancy, index }: { vacancy: Vacancy; index: number }) {
               <div className="mt-5 rounded-xl bg-slate-50 p-5">
                 <p className="text-sm leading-6 text-slate-600">
                   {vacancy.applicationIntro}
+                </p>
+                <p className="mt-3 text-sm font-bold text-rose-700">
+                  Application closes {vacancy.closingDate}
                 </p>
                 <a
                   href={emailHref}
