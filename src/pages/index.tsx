@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import { useEffect, useState } from "react";
 import HomeVideo from "@/components/HomeVideo";
 import Slider from "@/components/slider";
+import Vacancies from "@/components/Vacancies";
 import Categories from "@/components/Categories";
 import Bible from "@/components/Bible";
 import Sermons from "@/components/LatestSermons";
@@ -127,6 +128,7 @@ export default function Home() {
       {/* <div className={`${isTop ? "wave" : "hidden"} z-10`}></div> */}
       <HomeVideo heroSections={heroSections} nearestEvent={nearestEvent} />
       <Slider />
+      <Vacancies />
       <Testimony />
       <CategoriesNew/>
       {/* <Categories categories={categories} /> */}

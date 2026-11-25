@@ -37,10 +37,7 @@ export default function ImageBannerSlider() {
 
   return (
     <>
-         <div>
-          <img src="/img/announcement.jpeg" width={"900"} className="m-auto" alt="" />
-        </div>
-
+        
     <section className="relative w-full h-[200px] sm:h-[300px] md:h-[400px] lg:h-[550px] xl:h-[850px] 2xl:h-[1000px] mb-10 xl:p-10 overflow-hidden">
       {/* Images */}
       
@@ -90,8 +87,9 @@ export default function ImageBannerSlider() {
         {/* july declaration */}
         
 
-    </section>   <div>
-          <img src="/img/novdecl.jpeg" width={"1100"} className="m-auto" alt="" />
+    </section>   
+    <div>
+          <img src="/img/novdecl.jpeg" width={"700"} className="m-auto" alt="" />
         </div> </>
   );
 }
