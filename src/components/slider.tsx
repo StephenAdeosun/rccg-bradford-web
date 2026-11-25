@@ -4,7 +4,8 @@ import Image from "next/image";
 export default function ImageBannerSlider() {
   const images = [
     "/img/nov26.png",
-    "/img/ban2.jpeg",       
+    "/img/ban2.jpeg", 
+    "/img/novdecl.png",      
     // "https://eu-west-2.graphassets.com/cm00utdux6vaz08mkdx210ojr/cm0pijnb31ytb07l9kyptgjcl",
     // "https://eu-west-2.graphassets.com/cm00utdux6vaz08mkdx210ojr/cm0pijn7c1za207mn2pyaizoz",
     // "https://eu-west-2.graphassets.com/cm00utdux6vaz08mkdx210ojr/cm0ajdwxs8fv507ldzuu04e9g",
@@ -18,7 +19,7 @@ export default function ImageBannerSlider() {
     const interval = setInterval(() => {
       nextSlide();
       
-    }, 5000); // Auto-slide every 5 seconds
+    }, 7000); // Auto-slide every 5 seconds
 
     return () => clearInterval(interval);
   }, [currentIndex]);
@@ -38,7 +39,7 @@ export default function ImageBannerSlider() {
   return (
     <>
         
-    <section className="relative w-full h-[200px] sm:h-[300px] md:h-[400px] lg:h-[550px] xl:h-[850px] 2xl:h-[1000px] mb-10 xl:p-10 overflow-hidden">
+    <section className="relative w-full h-[200px] sm:h-[300px] md:h-[400px] lg:h-[550px] xl:h-[850px] 2xl:h-[800px] mb-10 xl:p-10 overflow-hidden">
       {/* Images */}
       
       
