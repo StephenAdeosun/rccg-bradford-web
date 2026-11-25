@@ -123,6 +123,12 @@ export default function Header() {
                         </p>
                         <p
                           className="hover:text-tetiary text-[#fff] cursor-pointer"
+                          onClick={() => router.push("/vacancies")}
+                        >
+                          Vacancies
+                        </p>
+                        <p
+                          className="hover:text-tetiary text-[#fff] cursor-pointer"
                           onClick={() => router.push("/pastor_blog")}
                         >
                           Pastor's Blog
@@ -249,6 +255,12 @@ export default function Header() {
               onClick={() => router.push("/ministries")}
             >
               Our Ministry
+            </MenuItem>
+            <MenuItem
+              {...menuItemStyles}
+              onClick={() => router.push("/vacancies")}
+            >
+              Vacancies
             </MenuItem>
             <MenuItem
               {...menuItemStyles}
